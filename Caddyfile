@@ -1,0 +1,27 @@
+{
+    email {$ACME_EMAIL}
+    admin off
+}
+
+www.{$DOMAIN} {
+    redir https://{$DOMAIN}{uri} permanent
+}
+
+{$DOMAIN} {
+    encode zstd gzip
+    request_body {
+        max_size 11MB
+    }
+    header {
+        Strict-Transport-Security "max-age=31536000"
+        X-Content-Type-Options nosniff
+        -Server
+    }
+    reverse_proxy app:8000 {
+        header_up X-Forwarded-Proto {scheme}
+        transport http {
+            dial_timeout 10s
+            response_header_timeout 120s
+        }
+    }
+}

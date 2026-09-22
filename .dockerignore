@@ -1,0 +1,15 @@
+.env
+secrets/
+migration/
+backups/
+**/.local/
+**/.venv/
+**/__pycache__/
+**/.pytest_cache/
+**/*.pyc
+**/*.dump
+**/*.zip
+**/*.key
+**/*.pem
+**/tests/
+.git/

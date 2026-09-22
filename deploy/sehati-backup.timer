@@ -1,0 +1,10 @@
+[Unit]
+Description=Nightly Sehati backup (server timezone)
+
+[Timer]
+OnCalendar=*-*-* 02:30:00
+Persistent=true
+RandomizedDelaySec=15min
+
+[Install]
+WantedBy=timers.target

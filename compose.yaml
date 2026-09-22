@@ -1,0 +1,54 @@
+{
+  "name": "sehati",
+  "services": {
+    "db": {
+      "image": "postgres:18.6-bookworm",
+      "restart": "unless-stopped",
+      "environment": {"POSTGRES_DB": "sehati", "POSTGRES_USER": "sehati_admin", "POSTGRES_PASSWORD_FILE": "/run/secrets/postgres_password", "POSTGRES_HOST_AUTH_METHOD": "scram-sha-256"},
+      "secrets": ["postgres_password", "app_db_password"],
+      "volumes": ["pgdata:/var/lib/postgresql", "./deploy/init-db.sh:/docker-entrypoint-initdb.d/10-sehati.sh:ro"],
+      "networks": ["database"],
+      "healthcheck": {"test": ["CMD-SHELL", "pg_isready -U sehati_admin -d sehati"], "interval": "5s", "timeout": "5s", "retries": 20},
+      "shm_size": "128mb",
+      "logging": {"driver": "json-file", "options": {"max-size": "10m", "max-file": "3"}}
+    },
+    "app": {
+      "build": ".",
+      "image": "sehati-app:prepared",
+      "restart": "unless-stopped",
+      "environment": {
+        "SEHATI_MODE": "production", "SEHATI_PUBLIC_ORIGIN": "https://${DOMAIN:?Run deploy/configure.py first}",
+        "SEHATI_DATABASE_HOST": "db", "SEHATI_DATABASE_NAME": "sehati", "SEHATI_DATABASE_USER": "sehati_app",
+        "SEHATI_DATABASE_PASSWORD_FILE": "/run/secrets/app_db_password",
+        "SEHATI_ENCRYPTION_KEY_FILE": "/run/secrets/authenticator_key", "SEHATI_STATE_DIR": "/var/lib/sehati"
+      },
+      "secrets": ["app_db_password", "authenticator_key"],
+      "volumes": ["appstate:/var/lib/sehati"],
+      "tmpfs": ["/tmp:size=128m,mode=1777"],
+      "read_only": true,
+      "cap_drop": ["ALL"],
+      "security_opt": ["no-new-privileges:true"],
+      "networks": ["proxy", "database"],
+      "depends_on": {"db": {"condition": "service_healthy"}},
+      "healthcheck": {"test": ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health',timeout=4)"], "interval": "30s", "timeout": "5s", "start_period": "30s", "retries": 3},
+      "logging": {"driver": "json-file", "options": {"max-size": "10m", "max-file": "3"}}
+    },
+    "caddy": {
+      "image": "caddy:2-alpine",
+      "restart": "unless-stopped",
+      "environment": {"DOMAIN": "${DOMAIN:?Set DOMAIN}", "ACME_EMAIL": "${ACME_EMAIL:?Set ACME_EMAIL}"},
+      "ports": ["80:80", "443:443", "443:443/udp"],
+      "volumes": ["./Caddyfile:/etc/caddy/Caddyfile:ro", "caddy_data:/data", "caddy_config:/config"],
+      "networks": ["public", "proxy"],
+      "depends_on": {"app": {"condition": "service_healthy"}},
+      "logging": {"driver": "json-file", "options": {"max-size": "10m", "max-file": "3"}}
+    }
+  },
+  "networks": {"public": {}, "proxy": {"internal": true}, "database": {"internal": true}},
+  "volumes": {"pgdata": {}, "appstate": {}, "caddy_data": {}, "caddy_config": {}},
+  "secrets": {
+    "postgres_password": {"file": "./secrets/postgres_password"},
+    "app_db_password": {"file": "./secrets/app_db_password"},
+    "authenticator_key": {"file": "./secrets/authenticator_key"}
+  }
+}

@@ -1,0 +1,34 @@
+.auth-help{font-size:11px;line-height:1.75;color:#697560;margin:10px 0}
+.auth-progress{display:flex;gap:22px;list-style:none;padding:0;margin:28px 0 24px;font-size:10px;color:#778171;line-height:1.5}
+.auth-progress li{display:flex;align-items:center;gap:8px}
+.auth-progress span{display:grid;place-items:center;flex:none;width:25px;height:25px;border:1px solid #cbd2c5;border-radius:50%;font-size:11px}
+.auth-progress [aria-current="step"]{color:#283a30;font-weight:600}
+.auth-progress [aria-current="step"] span{background:#283a30;border-color:#283a30;color:#fffefa}
+.auth-account-name{padding:12px 14px;border:1px solid #d3dbc9;background:#edf0e6;border-radius:4px;font-size:12px;overflow-wrap:anywhere;margin:0 0 22px}
+.auth-links{display:flex;flex-direction:column;align-items:flex-start;gap:15px;margin-top:23px}
+.auth-links button,.account-mfa summary{font-size:11px;text-decoration:underline;text-underline-offset:4px;cursor:pointer;line-height:1.8}
+.mfa-form label{display:block;font-size:11px;margin:20px 0 9px}
+.mfa-form input,.mfa-form select{width:100%;min-height:46px;padding:12px 14px;border:1px solid #cbd0c4;border-radius:3px;background:#fffefa;color:#283a30;font:inherit;font-size:14px}
+.mfa-form>.button{width:100%;margin-top:24px}
+.mfa-instructions{padding-left:20px;font-size:12px;line-height:1.85;margin:24px 0}
+.mfa-instructions li{padding-left:5px;margin-bottom:10px}
+.mfa-qr-frame{margin:20px auto;background:#fff;width:272px;max-width:100%;padding:8px;border:1px solid #dce2d3;border-radius:5px}
+.mfa-qr-frame img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain}
+.mfa-manual{margin-top:18px;font-size:11px;line-height:1.8}
+.mfa-manual summary{cursor:pointer;padding:8px 0}
+.mfa-manual code{display:block;background:#e9eee2;padding:13px;margin-top:10px;overflow-wrap:anywhere;font-size:13px;user-select:all}
+.account-mfa{margin-top:25px;padding-top:25px;border-top:1px solid #daddd2}
+.account-mfa h3{font-size:23px;margin-bottom:12px;color:#283a30}
+.account-mfa>.button{margin-top:18px}
+.account-mfa details{margin-top:25px}
+.account-mfa details>p{margin-top:12px}
+.account-mfa .mfa-form{border:0;padding:0;margin-top:15px}
+.mfa-recovery-dialog{width:min(640px,calc(100% - 32px));max-height:90dvh;overflow:auto;border:1px solid #d3dbc9;border-radius:8px;background:#f5f4ee;color:#283a30;padding:32px}
+.mfa-recovery-dialog::backdrop{background:#19281dc9}
+.mfa-recovery-dialog h2{font-size:31px;margin:16px 0}
+.mfa-recovery-dialog>p{font-size:12px;line-height:1.8;color:#637259}
+.mfa-recovery-list{display:grid;gap:8px;margin:24px 0}
+.mfa-recovery-list code{font-size:12px;padding:9px 12px;background:#e8edde;border:1px solid #d6decb;border-radius:3px;overflow-wrap:anywhere;user-select:all}
+.mfa-recovery-dialog>.primary{width:100%;margin-top:20px}
+.mfa-recovery-dialog button:disabled{opacity:.5;cursor:not-allowed}
+@media(max-width:700px){.mfa-form input,.mfa-form select{font-size:16px}.mfa-recovery-dialog{padding:24px 18px}.mfa-recovery-list code{font-size:10px}.mfa-recovery-dialog h2{font-size:27px}}

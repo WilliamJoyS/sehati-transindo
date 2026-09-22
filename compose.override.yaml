@@ -1,0 +1,12 @@
+services:
+  db:
+    mem_limit: 256m
+    memswap_limit: 384m
+    command: ["postgres", "-c", "shared_buffers=64MB", "-c", "max_connections=40", "-c", "work_mem=4MB", "-c", "maintenance_work_mem=32MB"]
+  app:
+    mem_limit: 512m
+    memswap_limit: 768m
+    command: ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--no-proxy-headers", "--no-access-log", "--limit-concurrency", "8"]
+  caddy:
+    mem_limit: 96m
+    memswap_limit: 128m

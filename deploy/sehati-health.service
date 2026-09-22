@@ -1,0 +1,11 @@
+[Unit]
+Description=Sehati service and HTTPS health check
+After=docker.service network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/sehati
+ExecStart=/usr/bin/python3 /opt/sehati/deploy/health_check.py
+User=root
+UMask=0077
+TimeoutStartSec=90
