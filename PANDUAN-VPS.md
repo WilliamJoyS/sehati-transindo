@@ -2,7 +2,7 @@
 
 Panduan ini untuk VPS BARU Ubuntu 22.04/24.04 LTS. Jangan menjalankan proses restore pada database produksi yang sudah berisi data. Skrip restore menolak database yang tidak kosong.
 
-Arsitektur: internet → Caddy HTTPS → FastAPI + website/admin → PostgreSQL privat.
+Arsitektur: internet â†’ Caddy HTTPS â†’ FastAPI + website/admin â†’ PostgreSQL privat.
 Hanya Caddy membuka port publik 80/443. App dan PostgreSQL tidak mempublikasikan port.
 Data database berada di volume permanen; restart/rebuild aplikasi tidak menghapus data.
 
@@ -20,13 +20,13 @@ Data database berada di volume permanen; restart/rebuild aplikasi tidak menghapu
 Gunakan WinSCP dengan protokol SFTP, atau PowerShell. Ganti USER dan IP_VPS sesuai data provider:
 
 ```powershell
-cd "C:\Users\PC\Downloads\Sehati-VPS-20260920-130634"
+cd "C:\path\ke\paket-vps"
 scp .\sehati-vps.zip USER@IP_VPS:~/sehati-vps.zip
 scp -r .\migrasi-privat USER@IP_VPS:~/migrasi-sehati
 ssh USER@IP_VPS
 ```
 
-Provider biasanya tidak mempunyai tombol "submit ZIP → website langsung jadi". Pada unmanaged VPS, langkah berikut dikerjakan melalui terminal SSH. Pada managed VPS, berikan panduan ini kepada teknisi yang dipercaya.
+Provider biasanya tidak mempunyai tombol "submit ZIP â†’ website langsung jadi". Pada unmanaged VPS, langkah berikut dikerjakan melalui terminal SSH. Pada managed VPS, berikan panduan ini kepada teknisi yang dipercaya.
 
 ## 3. Ekstrak dan instal kebutuhan (terminal SSH Linux)
 
@@ -107,7 +107,7 @@ Jangan membuka port backend sebagai jalan pintas. Rahasia dan backup tidak ada d
 
 - Website/gambar/tautan kontak terbuka di domain HTTPS.
 - Masuk dengan admin_sehati dan Google Authenticator; logout lalu login kembali.
-- Tabel/periode/jumlah data sesuai snapshot. Upload workbook percobaan → preview → konfirmasi hanya bila memang ingin menyimpan perubahan.
+- Tabel/periode/jumlah data sesuai snapshot. Upload workbook percobaan â†’ preview â†’ konfirmasi hanya bila memang ingin menyimpan perubahan.
 - Buat API key produksi dari halaman API Partner, pilih pelanggan dan kolomnya.
 - Tanpa key, endpoint partner menghasilkan 401. Key satu pelanggan tidak bisa membaca pelanggan lain. Lihat API-PARTNER.md.
 - /docs dan /openapi.json hanya tersedia setelah login sebagai admin.
